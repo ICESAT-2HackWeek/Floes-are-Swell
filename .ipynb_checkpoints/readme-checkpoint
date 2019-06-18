@@ -1,0 +1,10 @@
+This is the overall directory containing project directories. At this point we've got: 
+
+
+---- Floes - project related to obtaining FSD info from track spacings
+---- Swell - " for obtaining wave height variations within the sea ice
+
+---- Data - Contains sample tracks analysed in both project directories
+
+
+
