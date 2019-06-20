@@ -5,8 +5,6 @@ import numpy as np
 def get_CLD(beam_xarr):
     
     isita_floe = 1 - beam_xarr.isita_lead
-    # print(len(q))
-
 
     startvec = np.concatenate([[0],isita_floe])
     endvec = np.concatenate([isita_floe, [0]])
@@ -17,7 +15,7 @@ def get_CLD(beam_xarr):
     startind = np.concatenate(np.where(up==1))
     endind = np.concatenate(np.where(down==1))
     
-    print(len(startind))
+    # print(len(startind))
 
     # Eliminate all which are isolated single ice measurements
     same = np.intersect1d(startind,endind)
@@ -25,8 +23,23 @@ def get_CLD(beam_xarr):
     endind = np.setdiff1d(endind,same)
     startind = startind - 1 # because we prepended a zero
 
-    print(len(startind))
+    # print(len(startind))
 
+    # Get the mean latitudes and longitudes of the chords
+    startlat = beam_xarr.lat[startind]
+    startlat = startlat.drop(('lon','time','delta_time','lon360','segs'))
+
+    endlat = beam_xarr.lat[endind]
+    endlat = endlat.drop(('lon','time','delta_time','lon360','segs'))
+    
+    chordlat = 0.5*(startlat+endlat)
+
+    startlon = beam_xarr.lon[startind]
+    startlon = startlon.drop(('lat','time','delta_time','lon360','segs'))
+
+    endlon = beam_xarr.lon[endind]
+    endlon = endlon.drop(('lat','time','delta_time','lon360','segs'))
+    chordlon = 0.5*(startlon+endlon)
     
     startx = beam_xarr.seg_dist[startind]
     startx = startx.drop(('lat','lon','time','delta_time','lon360','segs'))
@@ -35,7 +48,7 @@ def get_CLD(beam_xarr):
 
     chord_lengths = endx - startx
         
-    return chord_lengths
+    return chord_lengths,chordlat,chordlon
 
 def get_LWD(beam_xarr):
     
@@ -57,12 +70,29 @@ def get_LWD(beam_xarr):
     # endind = np.setdiff1d(endind,same)
     startind = startind - 1 # because we prepended a zero
 
+    # Get the mean latitudes and longitudes of the chords
+    startlat = beam_xarr.lat[startind]
+    startlat = startlat.drop(('lon','time','delta_time','lon360','segs'))
+
+    endlat = beam_xarr.lat[endind]
+    endlat = endlat.drop(('lon','time','delta_time','lon360','segs'))
+    
+    leadlat = 0.5*(startlat+endlat)
+
+    startlon = beam_xarr.lon[startind]
+    startlon = startlon.drop(('lat','time','delta_time','lon360','segs'))
+
+    endlon = beam_xarr.lon[endind]
+    endlon = endlon.drop(('lat','time','delta_time','lon360','segs'))
+    leadlon = 0.5*(startlon+endlon)
+    
     startx = beam_xarr.seg_dist[startind]
     startx = startx.drop(('lat','lon','time','delta_time','lon360','segs'))
+    
     endx = beam_xarr.seg_dist[endind]
     endx = endx.drop(('lat','lon','time','delta_time','lon360','segs'))
-
+    
     lead_widths = endx - startx
         
-    return lead_widths
+    return lead_widths,leadlat,leadlon
 

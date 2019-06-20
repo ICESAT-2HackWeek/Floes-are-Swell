@@ -140,7 +140,7 @@ def polar_axis(extent=None, central_longitude=-45):
     return (f, ax)
 
 
-def multi_polar_axis(ncols=4, nrows=4,
+def multi_polar_axis(ncols, nrows,
                      Nplots=None, sizefcter=1,
                      extent=None, central_longitude=-45):
     if not Nplots:
