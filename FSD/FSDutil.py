@@ -47,14 +47,19 @@ def get_CLD(beam_xarr):
     endx = endx.drop(('lat','lon','time','delta_time','lon360','segs'))
 
     chord_lengths = endx - startx
-        
+    
+    goodL = chord_lengths > 0
+    
+    chord_lengths = chord_lengths[goodL]
+    chordlat = chordlat[goodL]
+    chordlon = chordlon[goodL]
+    
     return chord_lengths,chordlat,chordlon
 
 def get_LWD(beam_xarr):
     
     isita_lead = beam_xarr.isita_lead
     # print(len(q))
-
 
     startvec = np.concatenate([[0],isita_lead])
     endvec = np.concatenate([isita_lead, [0]])
@@ -93,6 +98,12 @@ def get_LWD(beam_xarr):
     endx = endx.drop(('lat','lon','time','delta_time','lon360','segs'))
     
     lead_widths = endx - startx
+    
+    goodL = lead_widths > 0
+
+    lead_widths = lead_widths[goodL]
+    leadlat = leadlat[goodL]
+    leadlon = leadlon[goodL]
         
     return lead_widths,leadlat,leadlon
 
