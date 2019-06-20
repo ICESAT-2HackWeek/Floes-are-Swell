@@ -61,8 +61,8 @@ def read_beam(filename,beam):
     ds.coords['lon360'] = lons360
     ds.coords['segs'] = xr.DataArray(np.arange(0,len(height),1),dims=['segs'])
 
-    print('\n\nTake a look at the dataset we made \n')
-    print(ds)
+#    print('\n\nTake a look at the dataset we made \n')
+#    print(ds)
 
     return ds
 
