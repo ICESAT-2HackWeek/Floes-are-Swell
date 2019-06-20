@@ -1,5 +1,12 @@
+#!/usr/bin/env python
+
+import h5py
+import numpy as np
+import xarray as xr
+
+
 def MakeDataSet(LocalFilePath, beam='gt1r'):
-    ATL07 = h5py.File(localFilePath, 'r')
+    ATL07 = h5py.File(LocalFilePath, 'r')
 
     # coordinates, start their lives as data arrays
     lons = xr.DataArray(ATL07[beam+'/sea_ice_segments/longitude'][:],dims=['segs'])
