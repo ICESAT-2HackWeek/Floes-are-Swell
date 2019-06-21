@@ -4,10 +4,12 @@ This is the overall directory containing project directories. The directory stru
 Floes-are-Swell/Scripts 
 -----------------------
  --- download_data_general.ipynb : a jupyter notebook that shows how to download and segment granules from the NSIDC data portal. 
+ --- ReadIntoXarray.ipynb : a jupyter notebook that goes through reading an ATL07 data file into xarray. 
  --- readintoxr.py : a python script that reads ATL07 files into an xarray dataset
       -- readintoxr.MakeDataSet : reads in a single .h5 file and beam
       -- readintoxr.MultiFileDataSet : reads in several listed .h5 files and listed beams
  --- ice_plot.py : a set of scripts that make nice plots of the polar regions 
+ --- pretty_maps_N_tracks.ipynb: A jupyter example of making a lovely map of SIC with a track on it
   
 -----------------------
 Floes-are-Swell/FSD 
