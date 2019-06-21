@@ -1,5 +1,15 @@
 #!/usr/bin/env python
 
+# This code written by CC reads in data from an ATL07 dataset and then spits out an xarray
+# data array. 
+# There are two pieces of code: 
+# readintoxr.MakeDataSet(LocalFilePath,beam)
+# returns an xarray dataset for a given .h5 file and beam
+
+# readintoxr.MultiFileDataSet(multiple_files, beams)
+# returns an xarray dataset indexed by len(multiple_files) and len(beams)
+# for multiple files and beams
+
 import h5py
 import numpy as np
 import xarray as xr
