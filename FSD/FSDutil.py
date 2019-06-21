@@ -48,8 +48,13 @@ def get_CLD(beam_xarr):
 
     chord_lengths = endx - startx
     
-    goodL = chord_lengths > 0
+    goodL = chord_lengths > 0 
     
+    chord_lengths = chord_lengths[goodL]
+    chordlat = chordlat[goodL]
+    chordlon = chordlon[goodL]
+    
+    goodL = chord_lengths < 1e6
     chord_lengths = chord_lengths[goodL]
     chordlat = chordlat[goodL]
     chordlon = chordlon[goodL]
