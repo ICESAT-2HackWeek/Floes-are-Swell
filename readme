@@ -3,22 +3,20 @@ This is the overall directory containing project directories. The directory stru
 -----------------------
 Floes-are-Swell/Scripts 
 -----------------------
-  --- download_data_general.ipynb : a jupyter notebook that shows how to download and segment granules from the NSIDC data portal. 
-  --- readintoxr.py : a python script that reads ATL07 files into an xarray dataset
+ --- download_data_general.ipynb : a jupyter notebook that shows how to download and segment granules from the NSIDC data portal. 
+ --- readintoxr.py : a python script that reads ATL07 files into an xarray dataset
       -- readintoxr.MakeDataSet : reads in a single .h5 file and beam
       -- readintoxr.MultiFileDataSet : reads in several listed .h5 files and listed beams
-  --- ice_plot.py : a set of scripts that make nice plots of the polar regions 
+ --- ice_plot.py : a set of scripts that make nice plots of the polar regions 
   
 -----------------------
 Floes-are-Swell/FSD 
 -----------------------
-  --- FSDutil.py : A python file with utility programs for reading in the Chord Length and Lead Width distributions
+ --- FSDutil.py : A python file with utility programs for reading in the Chord Length and Lead Width distributions
       -- FSDutil.get_CLD(beam_xarr) : takes a given xarray structure with a single index and computed the CLD using the field beam_xarr.isita_lead
       -- FSDutil.get_LWD(beam_xarr) : takes a given xarray structure with a single index and computed the LWD using the field beam_xarr.isita_lead
-          NOTE: FSDutil.get_LWD returns +/- the same results as the ATl10 flag "lead_length", which is probably easier to use. 
-          
------------------------
-Floes-are-Swell/FSD 
------------------------      
-
-
+          NOTE: FSDutil.get_LWD returns +/- the same results as the ATl10 flag "lead_length", which is probably easier to use.
+ 
+ --- FSD_single_track.ipynv : a notebook file that takes a single ATL07 file, reads in beams as necessary, and then spits out the CLD/LWD in nice plots
+  
+       
