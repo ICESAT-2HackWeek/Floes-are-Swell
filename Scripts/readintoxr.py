@@ -1,5 +1,15 @@
 #!/usr/bin/env python
 
+# This code written by CC reads in data from an ATL07 dataset and then spits out an xarray
+# data array. 
+# There are two pieces of code: 
+# readintoxr.MakeDataSet(LocalFilePath,beam)
+# returns an xarray dataset for a given .h5 file and beam
+
+# readintoxr.MultiFileDataSet(multiple_files, beams)
+# returns an xarray dataset indexed by len(multiple_files) and len(beams)
+# for multiple files and beams
+
 import h5py
 import numpy as np
 import xarray as xr
@@ -52,8 +62,73 @@ def MakeDataSet(LocalFilePath, beam='gt1r'):
     ds.coords['lon360'] = lons360
     ds.coords['segs'] = xr.DataArray(np.arange(0,len(height),1),dims=['segs'])
 
-    print('\n\nTake a look at the dataset we made \n')
-    print(ds)
+#    print('\n\nTake a look at the dataset we made \n')
+#    print(ds)
+    ATL07 = None
 
     return ds
+
+def MultiFileDataSet(multiple_files, beams):
+
+    num_beams = np.size(beams) # do not use len !
+    num_files = np.size(multiple_files)
+    ds_beams = None
+    ds_all = None
+    file = None
+    beam = None
+
+    if num_files>1:
+
+        ifile = 0
+        for file in multiple_files:
+            if num_beams>1:
+                ibeams=0
+                for beam in beams:
+                    #print(beam)
+                    ds = MakeDataSet(file, beam)
+                    if ibeams==0:
+                        ds_beams = ds
+                    else:
+                        ds_beams =xr.concat([ds, ds_beams])
+
+                    ibeams = ibeams+1
+                ds_beams = ds_beams.rename({'concat_dims':'beam'})
+            else:
+                ds_beams = MakeDataSet(file, beams)
+
+            if ifile==0:
+                ds_all = ds_beams
+            else:
+                ds_all =xr.concat([ds_beams, ds_all])
+            ifile=ifile+1
+
+    #    print(ds_all)
+        ds_all = ds_all.rename({'concat_dims':'track'})
+        ds_all.coords['track'] = xr.DataArray(np.arange(0,num_files,1),dims=['track'])
+        if num_beams > 1:
+            ds_all = ds_all.transpose('segs','track','beam')
+            ds_all.coords['beam'] = xr.DataArray(np.arange(0,num_beams,1),dims=['beam'])
+
+    else:
+        # just one file
+            if num_beams>1:
+                ibeams=0
+                for beam in beams:
+                    #print(beam)
+                    ds = MakeDataSet(multiple_files, beam)
+                    if ibeams==0:
+                        ds_beams = ds
+                    else:
+                        ds_beams =xr.concat([ds, ds_beams])
+
+                    ibeams = ibeams+1
+                ds_all = ds_beams.rename({'concat_dims':'beam'})
+                ds_all.coords['beam'] = xr.DataArray(np.arange(0,num_beams,1),dims=['beam'])
+            else:
+                ds_all = MakeDataSet(multiple_files, beams)
+
+    ds=None
+    ds_beams = None
+
+    return ds_all
 
